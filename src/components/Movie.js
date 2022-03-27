@@ -14,12 +14,10 @@ export default function Movie(){
     },[]);
     console.log(sessions)
     const {days, id, posterURL, title} = sessions;
-    return(
+    if(sessions !== []){return(
         <MovieMain>
             <h1>Selecione o horário</h1>
-            <Sessions>
-
-            </Sessions>
+            <SessionTimes days={days}></SessionTimes>
             <Footer>
                 <Poster>
                     <img src={posterURL} alt="poster"/>
@@ -27,7 +25,7 @@ export default function Movie(){
                 <h2>{title}</h2>
             </Footer>
         </MovieMain>
-    )
+    )}
 }
 
 const MovieMain = styled.div`
@@ -78,9 +76,17 @@ const Poster = styled.div`
     }
 `
 
-// function SessionTimes(props){
-//     const {} = props
-//     return(
-
-//     )
-// }
+function SessionTimes(props){
+    const {days} = props
+    if (days === undefined){
+        return(
+            <h1>CARREGANDO...</h1>
+        )
+    }
+    else{
+        return(
+            <Sessions>
+                {days.map(day=> <h3>{day.weekday}</h3>)}
+            </Sessions>
+    )}
+}
