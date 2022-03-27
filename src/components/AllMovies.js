@@ -1,34 +1,51 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 
 const URL = `https://mock-api.driven.com.br/api/v5/cineflex/movies`;
 
 export default function AllMovies(){
+    const {idMovie} = useParams();
+
     const [movies, setMovies] = useState([]);
     useEffect(() => {
         const promise = axios.get(URL);
         promise.then((response) =>{
             setMovies(response.data)
+            
         })
     },[])
 
     return(
-        <AllMoviesMain>
-            {movies.map(movie => 
-                <Poster key={movie.posterURL}>
-                    <img src={movie.posterURL} alt="poster" /> 
-                </Poster>    
-            )}
-        </AllMoviesMain>
+        <>
+            <H1>Selecione o filme</H1>
+            <AllMoviesMain>
+                {movies.map(movie => 
+                    <Poster key={movie.posterURL}>
+                        <Link to={`/filme/${movie.id}`}>
+                            <img src={movie.posterURL} alt="poster" />  
+                        </Link>    
+                    </Poster>    
+                )}
+            </AllMoviesMain>
+        </>
     )
 }
 
 const AllMoviesMain =  styled.div`
-    margin-top: 67px;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
+`
+const H1 = styled.h1`
+    margin-top: 67px;
+    height: 110px;
+    font-weight: 400;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
 
 const Poster = styled.div`

@@ -19,7 +19,7 @@ function App(){
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<AllMovies />}></Route>
-                    <Route path="/filme" element={<Movie />}></Route>
+                    <Route path="/filme/:idMovie" element={<Movie />}></Route>
                     <Route path="/sessao" element={<Session />}></Route>
                     <Route path="/sucesso" element={<Confirmation />}></Route>
                 </Routes>
