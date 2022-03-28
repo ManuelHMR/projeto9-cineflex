@@ -14,9 +14,13 @@ export default function Confirmation({ userData, movieData }){
             <h2>Comprador(a)</h2>
             <h3>{`Nome: ${userData.userName}`}</h3>
             <h3>{`CPF: ${userData.cpf}`}</h3>
-            <button>Voltar para a home</button>
+            <button onClick={home}>Voltar para a home</button>
         </ConfirmationMain>
     )
+}
+
+function home(){
+    window.open("/", "_self")
 }
 
 const ConfirmationMain = styled.div`
