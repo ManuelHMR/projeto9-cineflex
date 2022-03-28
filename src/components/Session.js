@@ -1,18 +1,18 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import "./../css/style.css"
 
-export default function Session(){
+export default function Session({userData, setUserData, setMovieData}){
     const {idSessao} = useParams();
     const URLGET = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`
     const URLPOST = `https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`
     const [session, setSession] = useState([]);
-    const [userData, setUserData] = useState({
-        ids: [],
-        userName: ``,
-        cpf: ``
-    })
+    const [backgroundColor, setBackgroundColor] = useState(``);
+    function changeStyle(){
+        setBackgroundColor(`selected`)
+    }
     useEffect( ()=>{
         const promise = axios.get(URLGET);
         promise.then(response => setSession(response.data))
@@ -23,6 +23,7 @@ export default function Session(){
         event.preventDefault()
         console.log(userData)
         const postPromise = axios.post(URLPOST, userData)
+        setMovieData(...session)
     }
 
     if(session.length === 0){
@@ -39,6 +40,8 @@ export default function Session(){
                 session={session} 
                 setUserData={setUserData}
                 userData = {userData}
+                backgroundColor= {backgroundColor}
+                changeStyle = {changeStyle}
                 ></SeatsDisplay>
                 <Legend>
                     <div className="legend1">
@@ -73,29 +76,35 @@ export default function Session(){
                         value={userData.cpf}
                         onChange={e => setUserData({...userData, cpf: e.target.value})}></input>
                     </Form>
-                    <Button type="submit">Reservar assento(s)</Button>
-                </form>
-            <Footer>
-                <Poster>
-                    <img src={session.movie.posterURL} alt="poster"/>
-                </Poster>
-                <div className="footer-right">
-                    <h2>{session.movie.title}</h2>
-                    <h2>{`${session.day.weekday} - ${session.name}`}</h2>
-                </div>
-            </Footer>
-        </SeatsMain>)
+                    <Link to={`/sucesso`}>
+                        <Button type="submit">Reservar assento(s)</Button>
+                    </Link>    
+                 </form> 
+                <Footer>
+                    <Poster>
+                        <img src={session.movie.posterURL} alt="poster"/>
+                    </Poster>
+                    <div className="footer-right">
+                        <h2>{session.movie.title}</h2>
+                        <h2>{`${session.day.weekday} - ${session.name}`}</h2>
+                    </div>
+                </Footer>
+            </SeatsMain>)
     }    
 }
 
-function SeatsDisplay({session, setUserData, userData}){
+function SeatsDisplay({session, setUserData, userData, changeStyle, backgroundColor}){
     const {seats} = session;
     return(
         <AllSeats>
             {seats.map((seat, index)=> 
             <p 
             key={index} 
-            onClick={()=>setUserData({...userData, ids: [...userData.ids, seat.id]})}
+            className={backgroundColor}
+            onClick={()=>{
+                changeStyle()
+                setUserData({...userData, ids: [...userData.ids, seat.id]})
+            }}
             style={seat.isAvailable ? {background: '#7B8B99'} : {background: '#F7C52B'}}>{seat.name}</p>)}
         </AllSeats>          
     )
@@ -131,6 +140,11 @@ const AllSeats = styled.div`
         font-size: 11px;
         margin: 3px;
     }
+    .selected{
+        p{
+            background-color: #1AAE9E;
+        }
+}
 `
 const Legend = styled.div`
     display: flex; 

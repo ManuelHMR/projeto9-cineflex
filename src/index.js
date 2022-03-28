@@ -1,6 +1,7 @@
 import reactDom from "react-dom";
 import {BrowserRouter, Routes, Route} from "react-router-dom"
 import styled from "styled-components";
+import { useState } from "react";
 
 import AllMovies from "./components/AllMovies";
 import Movie from "./components/Movie";
@@ -11,6 +12,12 @@ import "./css/reset.css"
 import "./css/style.css"
 
 function App(){
+    const [userData, setUserData] = useState({
+        ids: [],
+        userName: ``,
+        cpf: ``
+    })
+    const [movieData, setMovieData] = useState()
     return(
         <>
             <Header>
@@ -20,8 +27,14 @@ function App(){
                 <Routes>
                     <Route path="/" element={<AllMovies />}></Route>
                     <Route path="/filme/:idMovie" element={<Movie />}></Route>
-                    <Route path="/assentos/:idSessao" element={<Session />}></Route>
-                    <Route path="/sucesso" element={<Confirmation />}></Route>
+                    <Route path="/assentos/:idSessao" element={<Session 
+                    userData={userData}
+                    setUserData={setUserData}
+                    setMovieData={set}
+                    />}></Route>
+                    <Route path="/sucesso" element={<Confirmation 
+                    userData={userData}
+                    movieData={movieData}/>}></Route>
                 </Routes>
             </BrowserRouter>
         </>
