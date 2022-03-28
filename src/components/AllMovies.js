@@ -1,12 +1,11 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const URL = `https://mock-api.driven.com.br/api/v5/cineflex/movies`;
 
 export default function AllMovies(){
-    const {idMovie} = useParams();
 
     const [movies, setMovies] = useState([]);
     useEffect(() => {

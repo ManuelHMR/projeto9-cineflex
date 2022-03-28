@@ -20,7 +20,7 @@ function App(){
                 <Routes>
                     <Route path="/" element={<AllMovies />}></Route>
                     <Route path="/filme/:idMovie" element={<Movie />}></Route>
-                    <Route path="/sessao" element={<Session />}></Route>
+                    <Route path="/assentos/:idSessao" element={<Session />}></Route>
                     <Route path="/sucesso" element={<Confirmation />}></Route>
                 </Routes>
             </BrowserRouter>
@@ -29,6 +29,7 @@ function App(){
 }
 
 const Header = styled.div`
+
     width: 100%;
     height: 67px;
     display: flex;

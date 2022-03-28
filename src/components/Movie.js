@@ -12,8 +12,7 @@ export default function Movie(){
         const promise = axios.get(URL)
         promise.then(response => setSessions(response.data))
     },[]);
-    console.log(sessions)
-    const {days, id, posterURL, title} = sessions;
+    const {days, posterURL, title} = sessions;
     if(sessions !== []){return(
         <MovieMain>
             <h1>Selecione o horário</h1>
@@ -28,6 +27,39 @@ export default function Movie(){
     )}
 }
 
+function SessionTimes({days}){
+    if (days === undefined){
+        return(
+            <h1>CARREGANDO...</h1>
+        )
+    }
+    else{
+        return(
+            <Sessions>
+                {days.map((day, index)=> 
+                <>
+                    <h3 key={index}>{`${day.weekday} - ${day.date}`}</h3>
+                    <DaySessions showtimes={day.showtimes}></DaySessions>
+                </>
+                )}
+            </Sessions>
+    )}
+}
+
+function DaySessions({showtimes}){
+    return(
+        <DaySessionsDiv>
+            {showtimes.map((time, index)=>
+            <Link to={`/assentos/${time.id}`} key={index}>
+                <Time>
+                    <h5 >{time.name}</h5>
+                </Time>
+            </Link>  
+            )}
+        </DaySessionsDiv> 
+    )
+}
+
 const MovieMain = styled.div`
     margin-top: 67px;
     h1{
@@ -37,11 +69,54 @@ const MovieMain = styled.div`
         display: flex;
         justify-content: center;
         align-items: center;
+        color: #293845;
     }
 `
 const Sessions = styled.div`
 
+
+    h3{
+        font-weight: 400;
+        font-size: 20px;
+        color: #293845;
+    }
 `
+const Poster = styled.div`
+    background: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    width: 64px;
+    height: 89px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img{
+        width: 48px;
+        height: 72px;
+    }
+`
+const DaySessionsDiv = styled.div`
+    display: flex;
+`
+const Time = styled.div`
+    width: 83px;
+    height: 43px;
+    background: #E8833A;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 8px;
+
+    h5{
+    font-weight: 400;
+    font-size: 18px;
+    color: #FFFFFF;
+    }
+`
+
+
 const Footer = styled.div`
     position: fixed;
     width: 100%;
@@ -60,33 +135,3 @@ const Footer = styled.div`
         font-size: 26px;
     }
 `
-const Poster = styled.div`
-    background: #FFFFFF;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 2px;
-    width: 64px;
-    height: 89px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    img{
-        width: 48px;
-        height: 72px;
-    }
-`
-
-function SessionTimes(props){
-    const {days} = props
-    if (days === undefined){
-        return(
-            <h1>CARREGANDO...</h1>
-        )
-    }
-    else{
-        return(
-            <Sessions>
-                {days.map(day=> <h3>{day.weekday}</h3>)}
-            </Sessions>
-    )}
-}
