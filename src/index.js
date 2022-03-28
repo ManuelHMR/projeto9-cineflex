@@ -30,7 +30,7 @@ function App(){
                     <Route path="/assentos/:idSessao" element={<Session 
                     userData={userData}
                     setUserData={setUserData}
-                    setMovieData={set}
+                    setMovieData={movieData}
                     />}></Route>
                     <Route path="/sucesso" element={<Confirmation 
                     userData={userData}
