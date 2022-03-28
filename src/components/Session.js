@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "./../css/style.css"
 
 export default function Session({userData, setUserData, setMovieData}){
@@ -16,14 +16,12 @@ export default function Session({userData, setUserData, setMovieData}){
     useEffect( ()=>{
         const promise = axios.get(URLGET);
         promise.then(response => setSession(response.data))
-    },[])
+    },[]);
     console.log(session)
-
     function requestSeats(event){
-        event.preventDefault()
+        // event.preventDefault()
         console.log(userData)
-        const postPromise = axios.post(URLPOST, userData)
-        setMovieData(...session)
+        axios.post(URLPOST, userData)
     }
 
     if(session.length === 0){
@@ -57,7 +55,7 @@ export default function Session({userData, setUserData, setMovieData}){
                         <h5>Indisponível</h5>
                     </div>       
                 </Legend>
-                <form onSubmit={requestSeats}>
+                <form>
                     <Form>
                         <label htmlFor="userName">Nome do comprador:</label>
                         <input 
@@ -77,7 +75,7 @@ export default function Session({userData, setUserData, setMovieData}){
                         onChange={e => setUserData({...userData, cpf: e.target.value})}></input>
                     </Form>
                     <Link to={`/sucesso`}>
-                        <Button type="submit">Reservar assento(s)</Button>
+                        <Button onClick ={requestSeats} type="submit">Reservar assento(s)</Button>
                     </Link>    
                  </form> 
                 <Footer>

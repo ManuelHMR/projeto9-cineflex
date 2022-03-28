@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export default function Confirmation({ userData, movieData }){
     console.log(userData)
-    console.log(movieData)
+    // console.log(movieData)
     return(
         <ConfirmationMain>
             <h1>Pedido feito <br/> com sucesso!</h1>
