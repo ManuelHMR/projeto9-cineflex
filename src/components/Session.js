@@ -5,7 +5,8 @@ import { Link, useParams } from "react-router-dom";
 
 export default function Session(){
     const {idSessao} = useParams();
-    const URL = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`
+    const URLGET = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`
+    const URLPOST = `https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`
     const [session, setSession] = useState([]);
     const [userData, setUserData] = useState({
         ids: [],
@@ -13,7 +14,7 @@ export default function Session(){
         cpf: ``
     })
     useEffect( ()=>{
-        const promise = axios.get(URL);
+        const promise = axios.get(URLGET);
         promise.then(response => setSession(response.data))
     },[])
     console.log(session)
@@ -21,6 +22,7 @@ export default function Session(){
     function requestSeats(event){
         event.preventDefault()
         console.log(userData)
+        const postPromise = axios.post(URLPOST, userData)
     }
 
     if(session.length === 0){
@@ -33,7 +35,11 @@ export default function Session(){
         return (
             <SeatsMain>
                 <h1>Selecione o(s) assento(s)</h1>
-                <SeatsDisplay session={session}></SeatsDisplay>
+                <SeatsDisplay 
+                session={session} 
+                setUserData={setUserData}
+                userData = {userData}
+                ></SeatsDisplay>
                 <Legend>
                     <div className="legend1">
                         <p></p>
@@ -82,11 +88,15 @@ export default function Session(){
     }    
 }
 
-function SeatsDisplay({session}){
+function SeatsDisplay({session, setUserData, userData}){
     const {seats} = session;
     return(
         <AllSeats>
-            {seats.map((seat, index)=> <p key={index} style={seat.isAvailable ? {background: '#7B8B99'} : {background: '#F7C52B'}}>{seat.name}</p>)}
+            {seats.map((seat, index)=> 
+            <p 
+            key={index} 
+            onClick={()=>setUserData({...userData, ids: [...userData.ids, seat.id]})}
+            style={seat.isAvailable ? {background: '#7B8B99'} : {background: '#F7C52B'}}>{seat.name}</p>)}
         </AllSeats>          
     )
 }
@@ -119,7 +129,7 @@ const AllSeats = styled.div`
         align-items: center;
         font-weight: 400;
         font-size: 11px;
-       
+        margin: 3px;
     }
 `
 const Legend = styled.div`
