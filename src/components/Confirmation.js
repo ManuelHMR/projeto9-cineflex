@@ -7,8 +7,8 @@ export default function Confirmation({ userData, movieData }){
         <ConfirmationMain>
             <h1>Pedido feito <br/> com sucesso!</h1>
             <h2>Filme e sessão</h2>
-            {/* <h3>{movieData.title}</h3>
-            <h3>`${movieData.date} - ${movieData.weekday}</h3> */}
+            <h3>{movieData.title}</h3>
+            <h3>{`${movieData.name} - ${movieData.weekday}`}</h3>
             <h2>Ingressos</h2>
                 {seats.map((e, index) => <h3 key={index}>{`Assento ${e}`}</h3>)}
             <h2>Comprador(a)</h2>

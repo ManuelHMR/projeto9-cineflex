@@ -17,12 +17,10 @@ export default function Session({userData, setUserData, setMovieData, movieData}
         const promise = axios.get(URLGET);
         promise.then(response => setSession(response.data))
     },[]);
-    console.log(session)
     function requestSeats(event){
-        console.log(userData)
         axios.post(URLPOST, userData)
+        setMovieData({...movieData, title: session.movie.title, weekday: session.day.weekday, name:session.name})
     }
-
     if(session.length === 0){
         return (
         <SeatsMain>
@@ -30,6 +28,7 @@ export default function Session({userData, setUserData, setMovieData, movieData}
         </SeatsMain>)
     }
     if(session.length !== 0){
+        console.log(session)
         return (
             <SeatsMain>
                 <h1>Selecione o(s) assento(s)</h1>
