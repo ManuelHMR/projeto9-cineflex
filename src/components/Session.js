@@ -82,11 +82,11 @@ export default function Session(){
     }    
 }
 
-function SeatsDisplay({session, available}){
+function SeatsDisplay({session}){
     const {seats} = session;
     return(
         <AllSeats>
-            {seats.map((seat, index)=> <p key={index} >{seat.name}</p>)}
+            {seats.map((seat, index)=> <p key={index} style={seat.isAvailable ? {background: '#7B8B99'} : {background: '#F7C52B'}}>{seat.name}</p>)}
         </AllSeats>          
     )
 }
