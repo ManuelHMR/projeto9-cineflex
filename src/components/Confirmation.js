@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 export default function Confirmation({ userData, movieData }){
-    console.log(userData)
-    // console.log(movieData)
+    const {seats, title, weekday, name} = movieData;
+    console.log(movieData)
     return(
         <ConfirmationMain>
             <h1>Pedido feito <br/> com sucesso!</h1>
@@ -10,6 +10,7 @@ export default function Confirmation({ userData, movieData }){
             {/* <h3>{movieData.title}</h3>
             <h3>`${movieData.date} - ${movieData.weekday}</h3> */}
             <h2>Ingressos</h2>
+                {seats.map((e, index) => <h3 key={index}>{`Assento ${e}`}</h3>)}
             <h2>Comprador(a)</h2>
             <h3>{`Nome: ${userData.userName}`}</h3>
             <h3>{`CPF: ${userData.cpf}`}</h3>

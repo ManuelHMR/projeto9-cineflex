@@ -17,7 +17,12 @@ function App(){
         userName: ``,
         cpf: ``
     })
-    const [movieData, setMovieData] = useState()
+    const [movieData, setMovieData] = useState({
+        seats: [],
+        title: '',
+        weekday: ``,
+        name: ``
+    })
     return(
         <>
             <Header>
@@ -30,7 +35,8 @@ function App(){
                     <Route path="/assentos/:idSessao" element={<Session 
                     userData={userData}
                     setUserData={setUserData}
-                    setMovieData={movieData}
+                    setMovieData={setMovieData}
+                    movieData={movieData}
                     />}></Route>
                     <Route path="/sucesso" element={<Confirmation 
                     userData={userData}

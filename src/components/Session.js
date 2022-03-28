@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import "./../css/style.css"
 
-export default function Session({userData, setUserData, setMovieData}){
+export default function Session({userData, setUserData, setMovieData, movieData}){
     const {idSessao} = useParams();
     const URLGET = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`
     const URLPOST = `https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`
@@ -19,7 +19,6 @@ export default function Session({userData, setUserData, setMovieData}){
     },[]);
     console.log(session)
     function requestSeats(event){
-        // event.preventDefault()
         console.log(userData)
         axios.post(URLPOST, userData)
     }
@@ -40,6 +39,8 @@ export default function Session({userData, setUserData, setMovieData}){
                 userData = {userData}
                 backgroundColor= {backgroundColor}
                 changeStyle = {changeStyle}
+                setMovieData = {setMovieData}
+                movieData = {movieData}
                 ></SeatsDisplay>
                 <Legend>
                     <div className="legend1">
@@ -91,7 +92,7 @@ export default function Session({userData, setUserData, setMovieData}){
     }    
 }
 
-function SeatsDisplay({session, setUserData, userData, changeStyle, backgroundColor}){
+function SeatsDisplay({session, setUserData, userData, changeStyle, backgroundColor, setMovieData, movieData}){
     const {seats} = session;
     return(
         <AllSeats>
@@ -100,7 +101,8 @@ function SeatsDisplay({session, setUserData, userData, changeStyle, backgroundCo
             key={index} 
             className={backgroundColor}
             onClick={()=>{
-                changeStyle()
+                changeStyle();
+                setMovieData({...movieData,seats: [...movieData.seats, seat.name]})
                 setUserData({...userData, ids: [...userData.ids, seat.id]})
             }}
             style={seat.isAvailable ? {background: '#7B8B99'} : {background: '#F7C52B'}}>{seat.name}</p>)}
